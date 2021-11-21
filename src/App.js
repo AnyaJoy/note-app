@@ -35,21 +35,6 @@ useEffect(() => {
   });
 }, [noteData]) 
 
-
-
-//loads noteData from local storage
-useEffect(() => {
-  const storedNotes = JSON.parse(localStorage.getItem(localStorageKey));
-  if (storedNotes) setNoteData(storedNotes)
-}, [])
-
-//sends noteData to local storage
-useEffect(() => {
-  console.log(noteData)
-  localStorage.setItem(localStorageKey, JSON.stringify(noteData))
-}, [noteData]) 
-
-
   return (
       <div className="page-wrapper">
         <div className="content-wrapper">
