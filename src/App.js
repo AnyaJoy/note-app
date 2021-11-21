@@ -4,6 +4,7 @@ import NoteList from './Components/NoteList';
 import './App.css';
 import logo from './Images//MainPic.jpeg';
 import pen from './Images//pen.png';
+import localforage from  'localforage'
 
 const localStorageKey = 'noteApp.notes'
 
@@ -15,6 +16,26 @@ const [note, setNote] = useState();
 const [title, setTitle] = useState();
 const [noteData, setNoteData] = useState([]);
 const [inputChecker, setInputChecker] = useState(false);
+
+//load data from local forage
+useEffect(() => {
+  localforage.getItem('localStorageKey', function(err, value) {
+    console.log('recieved!', value);
+    if (value) setNoteData(value)
+  });
+}, [])
+
+//sends data to local forage
+useEffect(() => {
+  console.log(noteData)
+  localforage.setItem('localStorageKey', noteData).then(function (value) {
+    console.log("sent!", value);
+  }).catch(function(err) {
+    console.log(err);
+  });
+}, [noteData]) 
+
+
 
 //loads noteData from local storage
 useEffect(() => {
