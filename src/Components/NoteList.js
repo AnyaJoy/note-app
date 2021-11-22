@@ -20,8 +20,19 @@ Modal.setAppElement("#root");
 
 export default function NoteList(props) {
   //recieves props
-  const { noteData, setNoteData, title, setTitle, note, setNote, disabled, setDisabled } = props;
-  
+  const {
+    noteData,
+    setNoteData,
+    title,
+    setTitle,
+    note,
+    setNote,
+    disabled,
+    setDisabled,
+    archiveNoteData,
+    setArchiveNoteData,
+  } = props;
+
   //editing button
   const [editDisabled, setEditDisabled] = useState(true);
 
@@ -35,6 +46,7 @@ export default function NoteList(props) {
 
   //deleting an object from notes Array on button click
   const handleDelete = (e) => {
+    console.log(e.target.value)
     const result = window.confirm("Are you sure you want to delete your note?");
     if (result) {
       let newNoteData = noteData.filter((item) => {
@@ -155,16 +167,33 @@ export default function NoteList(props) {
     setNoteInput("");
   }
 
-  const handleArchive = () => {};
+  //archivating the object
+  const handleArchive = (e) => {
+    const result = window.confirm("Are you sure you want to archivate your note?");
+    if (result) {
+      let newNoteData = noteData.filter((item) => {
+        setArchiveNoteData(prevNotes => {
+          return [item, ...prevNotes]
+        })
+        return item.id !== e.target.value;
+      });
+      setNoteData(newNoteData);
+    }
+  };
+
+ 
 
   return (
     <>
       {noteData.map((item) => {
         return (
           <div key={item.id} className="note-wrapper">
+            <button className={`archive-button-${!disabled}`}
+            onClick={handleArchive}
+            value={item.id}
+            ></button>
             <img
-              className={`archive-img-${!disabled}`}
-              onClick={handleArchive}
+              className="archive-img"
               src="https://img.icons8.com/external-justicon-flat-justicon/64/000000/external-archive-office-stationery-justicon-flat-justicon.png"
             />
             {item.title && <div className="title">{item.title}</div>}

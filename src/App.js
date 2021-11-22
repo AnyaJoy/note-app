@@ -18,6 +18,7 @@ function App() {
   const [noteData, setNoteData] = useState([]);
   const [archiveNoteData, setArchiveNoteData] = useState([]);
   const [inputChecker, setInputChecker] = useState(false);
+  //dropdown selection
   const [notesSelected, setNotesSelected] = useState(true);
   const [archiveSelected, setArchiveSelected] = useState(false);
 
@@ -41,21 +42,19 @@ function App() {
       });
   }, [noteData]);
 
-  //drowdow menu
+  //drowdow menu (selects if to show notes or archive)
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
 
   const handleSelectNotes = () => {
     setArchiveSelected(false);
     setNotesSelected(true);
-    console.log("notes are true");
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   const handleSelectArchive = () => {
     setArchiveSelected(true);
     setNotesSelected(false);
-    console.log("archive is true");
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   return (
@@ -86,13 +85,20 @@ function App() {
 
         <div className="right-column">
           <div className="header-notes-wrapper">
-            <span className="header-notes">Notes</span>
+            {notesSelected && <span className="header-notes">Notes</span>}
+            {archiveSelected && <span className="header-notes">Archive</span>}
             <span className="dropdown-header">
-             <button {...buttonProps} className="dropdown-button">Show</button>
-             <span className={`arrow-down-${isOpen}`}></span>
+              <button {...buttonProps} className="dropdown-button">
+                Show
+              </button>
+              <span className={`arrow-down-${isOpen}`}></span>
               <div className={isOpen ? "visible" : ""} role="menu">
-                <div className="dropdown-option" onClick={handleSelectNotes}>• Notes</div>
-                <div className="dropdown-option" onClick={handleSelectArchive}>• Archive</div>
+                <div className="dropdown-option" onClick={handleSelectNotes}>
+                  • Notes
+                </div>
+                <div className="dropdown-option" onClick={handleSelectArchive}>
+                  • Archive
+                </div>
               </div>
             </span>
           </div>
@@ -111,7 +117,14 @@ function App() {
                 setDisabled={setDisabled}
               />
             )}
-            {archiveSelected && <ArchiveNoteList />}
+            {archiveSelected && (
+              <ArchiveNoteList
+                noteData={noteData}
+                setNoteData={setNoteData}
+                archiveNoteData={archiveNoteData}
+                setArchiveNoteData={setArchiveNoteData}
+              />
+            )}
           </div>
         </div>
       </div>

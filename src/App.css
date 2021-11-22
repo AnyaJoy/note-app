@@ -221,23 +221,6 @@
   border: none;
 }
 
-.archive-img-true {
-  width: 30px;
-  position: absolute;
-  right: 10px;
-  cursor: pointer;
-
-  /* puts this button on top of modal-button */
-  z-index: 1001;
-}
-
-.archive-img-false {
-  width: 30px;
-  position: absolute;
-  right: 10px;
-  cursor: pointer;
-}
-
 .modal-button {
   height: 120px;
   width: 480px;
@@ -379,13 +362,11 @@
   padding-top: 15px;
   position: relative;
   z-index: 1002;
-  cursor: pointer;
 }
 
 div[role="menu"] {
   visibility: hidden;
   padding-right: 5px;
-  cursor: pointer;
 }
 
 div[role="menu"].visible {
@@ -393,7 +374,6 @@ div[role="menu"].visible {
   background: white;
   padding: 0 5px 5px 0;
   border-radius: 5px;
-  cursor: pointer;
 }
 
 .dropdown-button {
@@ -403,6 +383,7 @@ div[role="menu"].visible {
   font-weight: 700;
   color: #633316ff;
   height: 25px;
+  cursor: pointer;
 }
 
 .arrow-down-false {
@@ -433,4 +414,31 @@ div[role="menu"].visible {
   cursor: pointer;
   font-weight: 500;
   margin-top: 9px;
+  cursor: pointer;
+}
+
+.archive-button-true {
+  z-index: 1;
+  position: absolute;
+  right: 10px;
+  border: none;
+  height: 26px;
+  width: 28px;
+  background: transparent;
+}
+
+.archive-button-false {
+  position: absolute;
+  right: 10px;
+  border: none;
+  height: 26px;
+  width: 28px;
+  background: transparent;
+}
+
+.archive-img {
+  width: 30px;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
 }
