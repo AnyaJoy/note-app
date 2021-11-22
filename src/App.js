@@ -1,50 +1,76 @@
-import { useState, useRef, useEffect } from 'react';
-import Note from './Components/Note';
-import NoteList from './Components/NoteList';
-import './App.css';
-import logo from './Images//MainPic.jpeg';
-import pen from './Images//pen.png';
-import localforage from  'localforage'
+import { useState, useRef, useEffect } from "react";
+import Note from "./Components/Note";
+import NoteList from "./Components/NoteList";
+import "./App.css";
+import logo from "./Images//MainPic.jpeg";
+import pen from "./Images//pen.png";
+import localforage from "localforage";
+import ArchiveNoteList from "./Components/ArchiveNoteList";
 
-const localStorageKey = 'noteApp.notes'
+import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 
-
+const localStorageKey = "noteApp.notes";
 
 function App() {
-//setting states
-const [note, setNote] = useState();
-const [title, setTitle] = useState();
-const [noteData, setNoteData] = useState([]);
-const [inputChecker, setInputChecker] = useState(false);
+  //setting states
+  const [note, setNote] = useState();
+  const [title, setTitle] = useState();
+  const [noteData, setNoteData] = useState([]);
+  const [archiveNoteData, setArchiveNoteData] = useState([]);
+  const [inputChecker, setInputChecker] = useState(false);
+  const [notesSelected, setNotesSelected] = useState(true);
+  const [archiveSelected, setArchiveSelected] = useState(false);
 
-//load data from local forage
-useEffect(() => {
-  localforage.getItem('localStorageKey', function(err, value) {
-    console.log('recieved!', value);
-    if (value) setNoteData(value)
-  });
-}, [])
+  //disabling delete button on notes when Modal is open
+  const [disabled, setDisabled] = useState(false);
 
-//sends data to local forage
-useEffect(() => {
-  console.log(noteData)
-  localforage.setItem('localStorageKey', noteData).then(function (value) {
-    console.log("sent!", value);
-  }).catch(function(err) {
-    console.log(err);
-  });
-}, [noteData]) 
+  //loads data from local forage
+  useEffect(() => {
+    localforage.getItem("localStorageKey", function (err, value) {
+      if (value) setNoteData(value);
+    });
+  }, []);
+
+  //sends data to local forage
+  useEffect(() => {
+    localforage
+      .setItem("localStorageKey", noteData)
+      .then(function (value) {})
+      .catch(function (err) {
+        console.log(err);
+      });
+  }, [noteData]);
+
+  //drowdow menu
+  const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
+
+  const handleSelectNotes = () => {
+    setArchiveSelected(false);
+    setNotesSelected(true);
+    console.log("notes are true");
+    setIsOpen(false)
+  };
+
+  const handleSelectArchive = () => {
+    setArchiveSelected(true);
+    setNotesSelected(false);
+    console.log("archive is true");
+    setIsOpen(false)
+  };
 
   return (
-      <div className="page-wrapper">
-        <div className="content-wrapper">
-
-          <div className="left-column">
-            <div><img src={logo} className="img"/></div>
-            <span className="header-idea">Write down your idea </span>
-            <span><img src={pen} className="img-pen"/></span>
-            <div className="input-wrapper">
-              <Note 
+    <div className="page-wrapper">
+      <div className="content-wrapper">
+        <div className="left-column">
+          <div>
+            <img src={logo} className="img" />
+          </div>
+          <span className="header-idea">Write down your idea </span>
+          <span>
+            <img src={pen} className="img-pen" />
+          </span>
+          <div className="input-wrapper">
+            <Note
               note={note}
               setNote={setNote}
               setNoteData={setNoteData}
@@ -52,26 +78,44 @@ useEffect(() => {
               setTitle={setTitle}
               inputChecker={inputChecker}
               setInputChecker={setInputChecker}
-              />
-            </div>
+              archiveNoteData={archiveNoteData}
+              setArchiveNoteData={setArchiveNoteData}
+            />
           </div>
+        </div>
 
-          <div className="right-column">
-            <div className="header-notes">Notes</div>
-              <div className="notesWrapper">
-                <NoteList 
-                  noteData={noteData}
-                  setNoteData={setNoteData}
-                  title={title}
-                  setTitle={setTitle}
-                  note={note}
-                  setNote={setNote}
-                />
+        <div className="right-column">
+          <div className="header-notes-wrapper">
+            <span className="header-notes">Notes</span>
+            <span className="dropdown-header">
+             <button {...buttonProps} className="dropdown-button">Show</button>
+             <span className={`arrow-down-${isOpen}`}></span>
+              <div className={isOpen ? "visible" : ""} role="menu">
+                <div className="dropdown-option" onClick={handleSelectNotes}>• Notes</div>
+                <div className="dropdown-option" onClick={handleSelectArchive}>• Archive</div>
               </div>
-            </div>
-          </div>         
-
+            </span>
+          </div>
+          <div className="notesWrapper">
+            {notesSelected && (
+              <NoteList
+                noteData={noteData}
+                setNoteData={setNoteData}
+                title={title}
+                setTitle={setTitle}
+                note={note}
+                setNote={setNote}
+                archiveNoteData={archiveNoteData}
+                setArchiveNoteData={setArchiveNoteData}
+                disabled={disabled}
+                setDisabled={setDisabled}
+              />
+            )}
+            {archiveSelected && <ArchiveNoteList />}
+          </div>
+        </div>
       </div>
+    </div>
   );
 }
 
