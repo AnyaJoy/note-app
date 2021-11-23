@@ -78,6 +78,7 @@ function App() {
             <img src={logo} className="img" />
           </div>
           <span className="header-idea">Write down your idea </span>
+          <div className="underline"></div>
           <span>
             <img src={pen} className="img-pen" />
           </span>
