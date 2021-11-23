@@ -137,6 +137,8 @@ function App() {
                 setNoteData={setNoteData}
                 archiveNoteData={archiveNoteData}
                 setArchiveNoteData={setArchiveNoteData}
+                setNotesSelected={setNotesSelected}
+                setArchiveSelected={setArchiveSelected}
               />
             )}
           </div>

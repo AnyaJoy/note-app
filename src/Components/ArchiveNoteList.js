@@ -11,8 +11,11 @@ export default function NoteList(props) {
     setDisabled,
     archiveNoteData,
     setArchiveNoteData,
+    setNotesSelected,
+    setArchiveSelected,
   } = props;
 
+  //unarchivating a note
   const handleReturn = (e) => {
     const result = window.confirm(
       "Are you sure you want to unarchivate your note?"
@@ -28,6 +31,8 @@ export default function NoteList(props) {
       });
       setArchiveNoteData(newArchiveNoteData);
     }
+    setNotesSelected(true);
+    setArchiveSelected(false);
   };
 
    //deleting an object from notes Array on button click
