@@ -46,7 +46,6 @@ export default function NoteList(props) {
 
   //deleting an object from notes Array on button click
   const handleDelete = (e) => {
-    console.log(e.target.value)
     const result = window.confirm("Are you sure you want to delete your note?");
     if (result) {
       let newNoteData = noteData.filter((item) => {

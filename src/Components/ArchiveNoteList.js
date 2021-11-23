@@ -30,6 +30,17 @@ export default function NoteList(props) {
     }
   };
 
+   //deleting an object from notes Array on button click
+   const handleDelete = (e) => {
+    const result = window.confirm("Are you sure you want to delete your note?");
+    if (result) {
+      let newArchiveNoteData = archiveNoteData.filter((item) => {
+        return item.id !== e.target.value;
+      });
+      setArchiveNoteData(newArchiveNoteData);
+    }
+  };
+
   return (
     <>
       {archiveNoteData.map((item) => {
@@ -48,14 +59,14 @@ export default function NoteList(props) {
             <div className="note-title">{item.note}</div>
             <div className="date-delete-wrapper">
               <div className="date">{item.date}</div>
-              {/* <button
+              <button
                 onClick={handleDelete}
                 className={`delete-button-${!disabled}`}
                 disabled={disabled}
                 value={item.id}
               >
                 Delete
-              </button> */}
+              </button>
             </div>
           </div>
         );
