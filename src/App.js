@@ -6,10 +6,8 @@ import logo from "./Images//MainPic.jpeg";
 import pen from "./Images//pen.png";
 import localforage from "localforage";
 import ArchiveNoteList from "./Components/ArchiveNoteList";
-
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 
-const localStorageKey = "noteApp.notes";
 
 function App() {
   //setting states
@@ -25,22 +23,37 @@ function App() {
   //disabling delete button on notes when Modal is open
   const [disabled, setDisabled] = useState(false);
 
+  const notesStorageKey = "notesStorageKey";
+  const archiveStorageKey = "archiveStorageKey";
   //loads data from local forage
   useEffect(() => {
-    localforage.getItem("localStorageKey", function (err, value) {
+    localforage.getItem("notesStorageKey", function (err, value) {
       if (value) setNoteData(value);
+    });
+    localforage.getItem("archiveStorageKey", function (err, value) {
+      if (value) setArchiveNoteData(value);
     });
   }, []);
 
-  //sends data to local forage
+  //sends notes to local forage
   useEffect(() => {
     localforage
-      .setItem("localStorageKey", noteData)
+      .setItem("notesStorageKey", noteData)
       .then(function (value) {})
       .catch(function (err) {
         console.log(err);
       });
   }, [noteData]);
+
+   //sends archive to local forage
+   useEffect(() => {
+    localforage
+      .setItem("archiveStorageKey", archiveNoteData)
+      .then(function (value) {})
+      .catch(function (err) {
+        console.log(err);
+      });
+  }, [archiveNoteData]);
 
   //drowdow menu (selects if to show notes or archive)
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);

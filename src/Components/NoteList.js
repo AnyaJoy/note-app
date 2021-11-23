@@ -171,10 +171,11 @@ export default function NoteList(props) {
   const handleArchive = (e) => {
     const result = window.confirm("Are you sure you want to archivate your note?");
     if (result) {
-      let newNoteData = noteData.filter((item) => {
-        setArchiveNoteData(prevNotes => {
-          return [item, ...prevNotes]
+      var obj = noteData.find(obj => obj.id === e.target.value);
+      setArchiveNoteData(prevNotes => {
+          return [obj, ...prevNotes]
         })
+      let newNoteData = noteData.filter((item) => {
         return item.id !== e.target.value;
       });
       setNoteData(newNoteData);

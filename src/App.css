@@ -425,6 +425,7 @@ div[role="menu"].visible {
   height: 26px;
   width: 28px;
   background: transparent;
+  cursor: pointer;
 }
 
 .archive-button-false {
@@ -440,5 +441,4 @@ div[role="menu"].visible {
   width: 30px;
   position: absolute;
   right: 10px;
-  cursor: pointer;
 }
