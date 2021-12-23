@@ -1,4 +1,4 @@
-Deployed link: c
+Deployed link: https://zealous-jepsen-4bb6d1.netlify.app
 
 # Note App Project
 
